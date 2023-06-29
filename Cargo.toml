@@ -8,6 +8,7 @@ members = [
     "examples/log_tls",
     "examples/log_http",
     "examples/log_dns",
+    "examples/my_log_dns",
     "examples/log_tls",
     "examples/pcap_dump",
     "examples/spin",
