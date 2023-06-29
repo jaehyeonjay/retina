@@ -78,6 +78,8 @@ pub struct L4Context {
     pub(crate) flags: u8,
 }
 
+
+
 impl L4Context {
     pub(crate) fn new(mbuf: &Mbuf, idx: usize) -> Result<Self> {
         if let Ok(eth) = mbuf.parse_to::<Ethernet>() {
@@ -87,7 +89,7 @@ impl L4Context {
                         .checked_sub(ipv4.header_len() + tcp.header_len())
                     {
                         Ok(L4Context {
-                            src: SocketAddr::new(IpAddr::V4(ipv4.src_addr()), tcp.src_port()),
+                            src: SocketAddr::new(IpAddr::V4(ipv4.fake_src_addr()), tcp.src_port()),
                             dst: SocketAddr::new(IpAddr::V4(ipv4.dst_addr()), tcp.dst_port()),
                             proto: TCP_PROTOCOL,
                             idx,
@@ -104,7 +106,7 @@ impl L4Context {
                         .checked_sub(ipv4.header_len() + udp.header_len())
                     {
                         Ok(L4Context {
-                            src: SocketAddr::new(IpAddr::V4(ipv4.src_addr()), udp.src_port()),
+                            src: SocketAddr::new(IpAddr::V4(ipv4.fake_src_addr()), udp.src_port()),
                             dst: SocketAddr::new(IpAddr::V4(ipv4.dst_addr()), udp.dst_port()),
                             proto: UDP_PROTOCOL,
                             idx,
@@ -125,7 +127,7 @@ impl L4Context {
                         (ipv6.payload_length() as usize).checked_sub(tcp.header_len())
                     {
                         Ok(L4Context {
-                            src: SocketAddr::new(IpAddr::V6(ipv6.src_addr()), tcp.src_port()),
+                            src: SocketAddr::new(IpAddr::V6(ipv6.fake_src_addr()), tcp.src_port()),
                             dst: SocketAddr::new(IpAddr::V6(ipv6.dst_addr()), tcp.dst_port()),
                             proto: TCP_PROTOCOL,
                             idx,
@@ -142,7 +144,7 @@ impl L4Context {
                         (ipv6.payload_length() as usize).checked_sub(udp.header_len())
                     {
                         Ok(L4Context {
-                            src: SocketAddr::new(IpAddr::V6(ipv6.src_addr()), udp.src_port()),
+                            src: SocketAddr::new(IpAddr::V6(ipv6.fake_src_addr()), udp.src_port()),
                             dst: SocketAddr::new(IpAddr::V6(ipv6.dst_addr()), udp.dst_port()),
                             proto: UDP_PROTOCOL,
                             idx,

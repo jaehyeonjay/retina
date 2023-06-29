@@ -3,6 +3,9 @@
 use crate::memory::mbuf::Mbuf;
 use crate::protocols::packet::{Packet, PacketHeader, PacketParseError};
 use crate::utils::types::*;
+// TODO i added these
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
 
 use std::net::Ipv4Addr;
 
@@ -139,6 +142,19 @@ impl<'a> Ipv4<'a> {
     #[inline]
     pub fn header_checksum(&self) -> u16 {
         self.header.header_checksum.into()
+    }
+
+    #[inline]
+    pub fn fake_src_addr(&self) -> Ipv4Addr {
+        let mut s = DefaultHasher::new();
+        self.header.src_addr.hash(&mut s);
+        let hash64 = s.finish();
+        let hash32 = hash64 as u32;
+        let one = (hash32 >> 24) as u8;
+        let two = (hash32 >> 16) as u8;
+        let three = (hash32 >> 8) as u8;
+        let four = hash32 as u8;
+        Ipv4Addr::new(one, two, three, four)
     }
 
     /// Returns the sender's IPv4 address.

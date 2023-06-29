@@ -4,6 +4,10 @@ use crate::memory::mbuf::Mbuf;
 use crate::protocols::packet::{Packet, PacketHeader, PacketParseError};
 use crate::utils::types::*;
 
+// TODO i added these
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
+
 use std::net::Ipv6Addr;
 
 use anyhow::{bail, Result};
@@ -81,6 +85,22 @@ impl<'a> Ipv6<'a> {
     #[inline]
     pub fn hop_limit(&self) -> u8 {
         self.header.hop_limit
+    }
+
+    #[inline]
+    pub fn fake_src_addr(&self) -> Ipv6Addr {
+        let mut s = DefaultHasher::new();
+        self.header.src_addr.hash(&mut s);
+        let hash64 = s.finish();
+        let one = (hash64 >> 56) as u16;
+        let two = (hash64 >> 48) as u16;
+        let three = (hash64 >> 40) as u16;
+        let four = (hash64 >> 32) as u16;
+        let five = (hash64 >> 24) as u16;
+        let six = (hash64 >> 16) as u16;
+        let seven = (hash64 >> 8) as u16;
+        let eight = hash64 as u16;
+        Ipv6Addr::new(one,two, three, four, five, six, seven, eight)
     }
 
     /// Returns the sender's IPv6 address.
