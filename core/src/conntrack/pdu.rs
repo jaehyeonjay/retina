@@ -85,6 +85,8 @@ impl L4Context {
         if let Ok(eth) = mbuf.parse_to::<Ethernet>() {
             if let Ok(ipv4) = eth.parse_to::<Ipv4>() {
                 if let Ok(tcp) = ipv4.parse_to::<Tcp>() {
+                    // if ipv4.dst_addr is in top_dst
+                    // bail!();
                     if let Some(payload_size) = (ipv4.total_length() as usize)
                         .checked_sub(ipv4.header_len() + tcp.header_len())
                     {

@@ -71,7 +71,7 @@ impl Subscribable for DnsTransaction {
                 if let Ok(ctxt) = L4Context::new(&mbuf, idx) {
                     conn_tracker.process(mbuf, ctxt, subscription);
                 }
-            }
+            } // TODO want to get packet to be dropped (below) if one of top dest
             FilterResult::NoMatch => drop(mbuf),
         }
     }
