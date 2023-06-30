@@ -22,7 +22,7 @@ struct Args {
         long,
         parse(from_os_str),
         value_name = "FILE",
-        default_value = "small_flows.jsonl"
+        default_value = "top_dst_online.jsonl"
     )]
     outfile: PathBuf,
 }
