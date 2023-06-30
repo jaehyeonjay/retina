@@ -38,7 +38,7 @@ fn main() -> Result<()> {
     let cnt = AtomicUsize::new(0);
 
     let callback = |dns: DnsTransaction| {
-        if let Ok(serialized) = serde_json::to_string(&dns.server()) {
+        if let Ok(serialized) = serde_json::to_string(&dns.server().ip()) {
             let mut wtr = file.lock().unwrap();
             wtr.write_all(serialized.as_bytes()).unwrap();
             wtr.write_all(b"\n").unwrap();
