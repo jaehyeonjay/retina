@@ -68,7 +68,13 @@ fn main() -> Result<()> {
                           "192.43.172.30".parse().unwrap(), "192.52.178.30".parse().unwrap(),
                           "192.55.83.30".parse().unwrap(), "171.67.68.25".parse().unwrap(),
                           "171.67.68.26".parse().unwrap(), "171.64.7.177".parse().unwrap(),
-                          "171.64.7.77".parse().unwrap()];
+                          "171.64.7.77".parse().unwrap(), "198.41.0.4".parse().unwrap(), 
+                          "199.9.14.201".parse().unwrap(), "192.33.4.12".parse().unwrap(), 
+                          "199.7.91.13".parse().unwrap(), "192.203.230.10".parse().unwrap(), 
+                          "192.5.5.241".parse().unwrap(), "192.112.36.4".parse().unwrap(), 
+                          "198.97.190.53".parse().unwrap(), "192.36.148.17".parse().unwrap(), 
+                          "192.58.128.30".parse().unwrap(), "193.0.14.129".parse().unwrap(), 
+                          "199.7.83.42".parse().unwrap(), "202.12.27.33".parse().unwrap()];
 
     let callback = |mut dns: DnsTransaction| {
         if disallowed.contains(&(dns.client().ip())) || disallowed.contains(&(dns.server().ip())) {
