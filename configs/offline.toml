@@ -12,7 +12,7 @@ nb_memory_channels = 6
     cache_size = 512
 
 [offline]
-    pcap = "./traces/ws2.pcapng"
+    pcap = "./traces/ws3.pcap"
     mtu = 9702
 
 [conntrack]
