@@ -8,11 +8,12 @@ members = [
     "examples/log_tls",
     "examples/log_http",
     "examples/log_dns",
-    "examples/my_log_dns_filtered",
     "examples/log_tls",
     "examples/pcap_dump",
     "examples/spin",
     "examples/video",
+    "examples/dns_1",
+    "examples/dns_2",
     "filtergen",
 ]
 
