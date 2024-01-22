@@ -27,7 +27,7 @@ struct Args {
         long,
         parse(from_os_str),
         value_name = "FILE",
-        default_value = "out/dns2.jsonl"
+        default_value = "jay/dns2.jsonl"
     )]
     outfile: PathBuf,
 }
@@ -55,14 +55,12 @@ fn main() -> Result<()> {
     let disallowed = vec!["171.64.1.234".parse().unwrap(), "171.67.1.234".parse().unwrap(),
                           "171.66.2.21".parse().unwrap(), "8.8.8.8".parse().unwrap(),
                           "1.1.1.1".parse().unwrap(), "8.8.4.4".parse().unwrap(),
-                          "171.67.68.19".parse().unwrap(),
-                          "192.33.14.30".parse().unwrap(), "192.42.93.30".parse().unwrap(),
-                          "192.5.6.30".parse().unwrap(), "192.12.94.30".parse().unwrap(),
-                          "192.48.79.30".parse().unwrap(), 
-                          "171.67.64.53".parse().unwrap(),
-                          "192.54.112.30".parse().unwrap(), "192.35.51.30".parse().unwrap(),
-                          "192.41.162.30".parse().unwrap(), "192.26.92.30".parse().unwrap(),
-                          "192.31.80.30".parse().unwrap(),
+                          "171.67.68.19".parse().unwrap(), "192.33.14.30".parse().unwrap(), 
+                          "192.42.93.30".parse().unwrap(), "192.5.6.30".parse().unwrap(),
+                          "192.12.94.30".parse().unwrap(), "192.48.79.30".parse().unwrap(), 
+                          "171.67.64.53".parse().unwrap(), "192.54.112.30".parse().unwrap(), 
+                          "192.35.51.30".parse().unwrap(), "192.41.162.30".parse().unwrap(),
+                          "192.26.92.30".parse().unwrap(), "192.31.80.30".parse().unwrap(),
                           "192.43.172.30".parse().unwrap(), "192.52.178.30".parse().unwrap(),
                           "192.55.83.30".parse().unwrap(), "171.67.68.25".parse().unwrap(),
                           "171.67.68.26".parse().unwrap(), "198.41.0.4".parse().unwrap(), 

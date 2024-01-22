@@ -106,7 +106,7 @@ pub enum Data {
     Soa(Soa),
     Srv(Srv),
     Txt(String),
-    Unknown,
+    Unknown(String),
 }
 
 impl Data {
@@ -137,7 +137,7 @@ impl Data {
                 target: a.target.to_string(),
             }),
             RData::TXT(a) => Data::Txt(String::from_utf8_lossy(a.bytes).to_string()),
-            RData::Unknown(..) => Data::Unknown,
+            RData::Unknown(..) => Data::Unknown("Unknown".to_string()),
         }
     }
 }
