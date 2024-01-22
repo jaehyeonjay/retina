@@ -31,7 +31,7 @@ impl DnsQuery {
 /// A DNS Response.
 #[derive(Debug, Serialize)]
 pub struct DnsResponse {
-    pub response_code: ResponseCode,
+    pub response_code: String, // EDITED: ResponseCode
     pub authoritative: bool, // if the DNS server is authoritative for the queried hostname, appear in answer
     pub recursion_available: bool, // appear in answer
     pub num_answers: u16,
@@ -73,7 +73,7 @@ impl DnsResponse {
             });
         }
         DnsResponse {
-            response_code: pkt.header.response_code,
+            response_code: pkt.header.response_code.to_string(),
             authoritative: pkt.header.authoritative,
             recursion_available: pkt.header.recursion_available,
             num_answers: pkt.header.answers,
