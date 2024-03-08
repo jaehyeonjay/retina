@@ -12,6 +12,21 @@ use std::sync::Mutex;
 use anyhow::Result;
 use clap::Parser;
 
+// Added
+use std::net::IpAddr;
+extern crate rand;
+extern crate ipcrypt;
+
+fn encrypt_ip(ip: IpAddr, key: &[u8; 16]) -> Result<IpAddr> {
+    match ip {
+        IpAddr::V4(ipv4) => {
+            let ipv4_enc = ipcrypt::encrypt(ipv4, key);
+            Ok(IpAddr::V4(ipv4_enc))
+        }
+        IpAddr::V6(_) => todo!()
+    }
+}
+
 // Define command-line arguments.
 #[derive(Parser, Debug)]
 struct Args {
@@ -21,13 +36,13 @@ struct Args {
         short,
         long,
         parse(from_os_str),
-        value_name = "FILE",
+        value_name = "small_flows.pcap",
         default_value = "dns.jsonl"
     )]
     outfile: PathBuf,
 }
 
-#[filter("dns")]
+#[filter("dns and ipv4")]
 fn main() -> Result<()> {
     env_logger::init();
     let args = Args::parse();
@@ -37,7 +52,14 @@ fn main() -> Result<()> {
     let file = Mutex::new(BufWriter::new(File::create(&args.outfile)?));
     let cnt = AtomicUsize::new(0);
 
-    let callback = |dns: DnsTransaction| {
+    // key for encryption
+    let key: [u8; 16] = rand::random();
+
+    let callback = |mut dns: DnsTransaction| {
+        // encrypt client IP
+        let src_addr_enc = encrypt_ip(dns.client().ip(), &key).expect("Should not log ipv6");
+        dns.five_tuple.orig.set_ip(src_addr_enc);
+
         if let Ok(serialized) = serde_json::to_string(&dns) {
             let mut wtr = file.lock().unwrap();
             wtr.write_all(serialized.as_bytes()).unwrap();
